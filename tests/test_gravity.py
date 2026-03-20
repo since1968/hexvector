@@ -71,6 +71,9 @@ class TestGravityDisplacement:
 
         future Hex(7,4) cube(5,-9,4):
           step (0,-1,1) → (5,-10,5) → col=7, row=5 → Hex(7,5)
+
+        Speed increases from 2 to 3: distance(Hex(5,4), Hex(7,5)) = 3.
+        This is the intended impulse behaviour — gravity accelerates the ship.
         """
         world = World(WORLD)
         v = _vessel(Hex(3, 4), Hex(5, 4), Hex(7, 4))
@@ -93,6 +96,9 @@ class TestGravityDisplacement:
         future Hex(11,4) cube(9,-13,4):
           step dir 5 (0,-1,1)  → (9,-14,5)  → col=11, row=5 → Hex(11,5)
           step dir 4 (-1,0,1)  → (8,-14,6)  → col=11, row=6 → Hex(11,6)
+
+        Speed increases from 4 to 5: distance(Hex(7,4), Hex(11,6)) = 5.
+        The two impulses are aligned to accelerate the ship in this geometry.
         """
         world = World(WORLD)
         v = _vessel(Hex(3, 4), Hex(7, 4), Hex(11, 4))

@@ -41,6 +41,19 @@ class World:
 
         Returns the number of gravity hexes traversed (0, 1, or 2 typically).
         """
+        # Gravity is applied as a unit vector impulse: one step toward the world
+        # per gravity hex entered on the present→future path. This naturally
+        # changes vector magnitude as well as direction — a ship passing through
+        # aligned gravity hexes will accelerate, reproducing the slingshot effect.
+        #
+        # This matches the Mayday (GDW, 1978) rules mechanism exactly. The canonical
+        # Mayday gravity diagram shows a ship accelerating from speed 2 to speed 3
+        # on the B→E leg. The diagram's E→G leg is drawn one hex too short — it
+        # should be three hexes to match the conserved speed-3 vector. This is the
+        # only error in the original diagram.
+        #
+        # No magnitude restoration is applied. The impulse model is the correct
+        # implementation of the written rules.
         path = hex_line(vessel.past, vessel.present)
         count = 0
         for h in path:

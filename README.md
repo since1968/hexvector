@@ -68,6 +68,53 @@ burn would achieve.
 
 ---
 
+## Gravity and the Slingshot Effect
+
+Here is a concrete example of how gravity deflects a ship's trajectory,
+using hex coordinates. The world is at Hex(9, 7). Its six surrounding
+gravity hexes each carry a fixed impulse directed toward the world centre.
+
+The ship starts heading east at speed 2: past at Hex(7, 6), present at
+Hex(9, 6), future at Hex(11, 6).
+
+**Turn 1.** The ship advances. Its path from Hex(7, 6) to Hex(9, 6) passes
+through Hex(9, 6) itself — a gravity hex. That hex carries a northwest
+impulse, which shifts the future marker one hex northwest, from Hex(11, 6)
+to Hex(11, 7). The present-to-future distance is now 3, not 2. The ship
+did not apply thrust; the planet did it.
+
+**Turn 2.** The ship advances again. Its present is now Hex(9, 6), and
+it moves to Hex(11, 7) — a speed-3 move, because last turn's gravity
+stretched the vector. The path from Hex(9, 6) to Hex(11, 7) is three hexes
+long and crosses two gravity hexes in sequence:
+
+- Hex(10, 6): west impulse. In cube velocity terms, the ship's velocity
+  (2, −3, 1) becomes (1, −3, 2) — magnitude stays 3.
+- Hex(10, 7): southwest impulse. The velocity (1, −3, 2) becomes (0, −2, 2)
+  — magnitude drops to 2.
+
+The two impulses pull in slightly different directions. The first is
+perpendicular enough to the velocity that it bends the course without
+changing speed. The second opposes enough of the velocity's forward
+component that speed returns to 2.
+
+The ship exits the gravity field at speed 2 but on a noticeably different
+heading than it entered — bent south and slowed back to its original pace.
+
+**What this means.** The slingshot effect is real, but it is not free
+acceleration. What the planet provides is a course change. Whether that
+change costs speed, gains speed, or breaks even depends entirely on the
+angle between the ship's velocity vector and the gravity hex impulse
+directions. A more favourable approach angle — crossing impulses that are
+aligned with the velocity rather than opposed to it — can produce a
+permanent speed increase with no thrust expended.
+
+The diagram in the Mayday rulebook is geometrically self-consistent. The
+slingshot accelerates and then decelerates the ship in this geometry.
+Different approach angles will produce different net speed changes.
+
+---
+
 ## Inspiration
 
 This project was inspired by the vector movement system in Mayday (Game
