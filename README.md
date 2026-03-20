@@ -1,0 +1,86 @@
+# hexvector
+
+In space, no one can hear you stop. This pygame sandbox demonstrates
+Newtonian vector movement on a hex grid — momentum, thrust, and gravity
+assists — inspired by the 1978 GDW board game Mayday.
+
+---
+
+## What is this?
+
+Each ship is tracked by three position markers: past, present, and future.
+Your future position is determined by extending the line from past through
+present — that is your momentum, and it carries you forward whether you
+like it or not. Each turn you may shift that future position by one hex
+using thrust. The planet's gravity will shift it too, whether you ask it
+to or not.
+
+---
+
+## How to play
+
+- The ring of bright outlined hexes shows where you can thrust. Click one
+  to aim your future position there.
+- Press **Space** or **Enter** to advance the turn.
+- If you don't click, you coast — momentum carries you to the natural
+  future position.
+- Your goal is to reach the target hex, marked **X**, in as few turns
+  as possible.
+- Do not hit the planet at speed. Impact above 1 hex/turn destroys the ship.
+- Press **Escape** to reset. Press **Q** to quit.
+
+---
+
+## Installation
+
+Requires Python 3.12+.
+
+```
+git clone https://github.com/since1968/hexvector.git
+cd hexvector
+pip install -r requirements.txt
+python3 main.py
+```
+
+---
+
+## Physics model
+
+**Momentum.** A ship in motion stays in motion. Your velocity is the
+vector from your past position to your present position. Each turn that
+vector is extended forward automatically — your future marker is placed
+at the far end of that line. To stop, you must decelerate over multiple
+turns. There is no braking.
+
+**Thrust.** A 1G drive lets you shift your future position by one hex per
+turn in any direction. This is applied after momentum places the future
+marker, so thrust adjusts your trajectory rather than setting it. At 1G
+you can nudge; you cannot pivot. Higher G ratings shift the future marker
+further, but the underlying logic is the same.
+
+**Gravity.** A world's gravity hexes are the six hexes surrounding it.
+When your present-to-future path crosses a gravity hex, your future
+marker is displaced one hex toward the world — mandatory, no saving
+throw. Crossing two gravity hexes displaces twice. This is what makes a
+gravity assist work: approach at the right angle and the planet bends your
+trajectory for free, putting you on a faster course than a straight-line
+burn would achieve.
+
+---
+
+## Inspiration
+
+This project was inspired by the vector movement system in Mayday (Game
+Designers' Workshop, 1978). The underlying physics — Newtonian mechanics
+on a hex grid — is not owned by anyone. This project contains no rules
+text, ship statistics, or scenario content from any copyrighted game.
+
+The Traveller game in all forms is owned by Mongoose Publishing.
+Copyright 1977–2025 Mongoose Publishing. Traveller is a registered
+trademark of Mongoose Publishing. This project is non-commercial.
+
+---
+
+## License
+
+MIT
