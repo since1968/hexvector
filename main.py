@@ -9,6 +9,7 @@ Controls
 Click thrust hint hex   aim future position (thrust)
 Space / Enter           advance turn (coast if no thrust applied)
 Escape                  reset scenario
+D                       toggle hex coordinate labels
 Q                       quit
 """
 
@@ -121,6 +122,8 @@ def main() -> None:
                     hints = _thrust_hints(vessel)
                     turn = 0
                     target_reached = False
+                elif event.key == pygame.K_d:
+                    renderer.toggle_labels()
                 elif event.key == pygame.K_q:
                     running = False
 
