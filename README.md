@@ -8,7 +8,7 @@ assists — inspired by the 1978 GDW board game Mayday.
 
 ## What is this?
 
-Each ship is tracked by three position markers: past, present, and future.
+A spaceship is tracked by three position markers: past, present, and future.
 Your future position is determined by extending the line from past through
 present — that is your momentum, and it carries you forward whether you
 like it or not. Each turn you may shift that future position by one hex
@@ -17,7 +17,7 @@ to or not.
 
 ---
 
-## How to play
+## How to explore hexvector
 
 - The ring of bright outlined hexes shows where you can thrust. Click one
   to aim your future position there.
@@ -101,17 +101,6 @@ component that speed returns to 2.
 The ship exits the gravity field at speed 2 but on a noticeably different
 heading than it entered — bent south and slowed back to its original pace.
 
-**What this means.** The slingshot effect is real, but it is not free
-acceleration. What the planet provides is a course change. Whether that
-change costs speed, gains speed, or breaks even depends entirely on the
-angle between the ship's velocity vector and the gravity hex impulse
-directions. A more favourable approach angle — crossing impulses that are
-aligned with the velocity rather than opposed to it — can produce a
-permanent speed increase with no thrust expended.
-
-The diagram in the Mayday rulebook is geometrically self-consistent. The
-slingshot accelerates and then decelerates the ship in this geometry.
-Different approach angles will produce different net speed changes.
 
 ---
 
