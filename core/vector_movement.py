@@ -29,20 +29,16 @@ class Vessel:
         Post-gravity, pre-thrust future for this turn.  Set after all
         gravity displacement has been applied; used by thrust-hint display
         so hints stay anchored on the gravity-corrected position.
-    name : str
-        Optional label for display purposes.
     """
 
     def __init__(self, past: Hex, present: Hex, future: Hex,
-                 g_factor: int = 1,
-                 name: str = ""):
+                 g_factor: int = 1):
         self.past = past
         self.present = present
         self.future = future
         self.g_factor = g_factor
         self.thrust_used = 0
         self.natural_future: Hex | None = None
-        self.name = name
         self.destroyed: bool = False
 
     # ── movement ────────────────────────────────────────────────────────────

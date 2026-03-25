@@ -39,7 +39,7 @@ def _build_scene() -> tuple[Vessel, World]:
     past    = Hex(3, 7)
     present = Hex(4, 7)
     future  = extend_vector(past, present)   # Hex(5, 7) — momentum carries it east
-    vessel  = Vessel(past, present, future, g_factor=1, name="Ship")
+    vessel  = Vessel(past, present, future, g_factor=1)
 
     return vessel, world
 

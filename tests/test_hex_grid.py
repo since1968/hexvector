@@ -197,7 +197,7 @@ class TestHexesWithin(unittest.TestCase):
 
 
 class TestThrustPathfinding(unittest.TestCase):
-    """Tests for the click-to-future pathfinding used in the UI (issue #25).
+    """Tests for best_direction_toward — hex pathfinding for multi-G thrust.
 
     Verifies that best_direction_toward steps can reach any hex within G
     distance of a start hex, for G values 1 through 6.

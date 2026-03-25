@@ -32,7 +32,6 @@ def _sysfont(size: int, bold: bool = False) -> pygame.font.Font:
 
 COLOUR_BG           = ( 10,  10,  10)
 COLOUR_GRID         = ( 30,  60,  30)
-COLOUR_HIGHLIGHT    = (200, 200,  80)
 COLOUR_LABEL        = (100, 130, 100)
 
 COLOUR_THRUST_HINT  = ( 80, 160,  80)
@@ -97,7 +96,6 @@ class Renderer:
         self.screen = screen
         self.cols = cols
         self.rows = rows
-        self.highlighted: Hex | None = None
         self.show_labels: bool = False
         self.zoom_level: int = 0
 
@@ -119,16 +117,6 @@ class Renderer:
         """Shift the camera by (dx, dy) pixels."""
         self.camera[0] += dx
         self.camera[1] += dy
-
-    def center_on(self, h: Hex) -> None:
-        """Set camera so hex h is centred in the viewport."""
-        sw, sh = self.screen.get_size()
-        size = _compute_hex_size(sw, sh, self.cols, self.rows, _MARGIN)
-        size *= _ZOOM_MULTIPLIERS[self.zoom_level]
-        ox, oy = _compute_origin(sw, sh, size, self.cols, self.rows)
-        px, py = hex_to_pixel(h, size, (ox, oy))
-        self.camera[0] = sw / 2 - px
-        self.camera[1] = sh / 2 - py
 
     # ── layout ────────────────────────────────────────────────────────────────
 
@@ -175,12 +163,6 @@ class Renderer:
         size, origin = self._layout()
         return pixel_to_hex(pixel_pos[0], pixel_pos[1], size, origin)
 
-    def handle_click(self, pixel_pos: tuple[int, int]) -> Hex:
-        """Update highlighted hex and return it."""
-        h = self.hex_at(pixel_pos)
-        self.highlighted = h
-        return h
-
     # ── drawing ───────────────────────────────────────────────────────────────
 
     def draw(self, vessels: list[Vessel], worlds: list[World],
@@ -198,12 +180,9 @@ class Renderer:
         # Grid
         for h in self._visible_hexes(size, origin):
             corners = self._hex_corners(h, size, origin)
-            is_highlighted = (h == self.highlighted)
 
             # Fill
-            if is_highlighted:
-                pygame.draw.polygon(self.screen, COLOUR_HIGHLIGHT, corners)
-            elif h in gravity_hexes:
+            if h in gravity_hexes:
                 pygame.draw.polygon(self.screen, COLOUR_GRAVITY_FILL, corners)
 
             # Outline
@@ -214,10 +193,9 @@ class Renderer:
             else:
                 pygame.draw.polygon(self.screen, COLOUR_GRID, corners, 1)
 
-            if self.show_labels or is_highlighted:
+            if self.show_labels:
                 cx, cy = hex_to_pixel(h, size, origin)
-                colour = COLOUR_HIGHLIGHT if is_highlighted else COLOUR_LABEL
-                label = self._font.render(f"{h.col},{h.row}", True, colour)
+                label = self._font.render(f"{h.col},{h.row}", True, COLOUR_LABEL)
                 lw, lh = label.get_size()
                 self.screen.blit(label, (int(cx - lw / 2), int(cy - lh / 2)))
 
