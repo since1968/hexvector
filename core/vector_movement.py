@@ -25,10 +25,10 @@ class Vessel:
         Maximum thrust hexes available per turn.
     thrust_used : int
         Thrust hexes already applied this turn.
-    natural_future : Hex | None
-        Post-gravity, pre-thrust future for this turn.  Set after all
-        gravity displacement has been applied; used by thrust-hint display
-        so hints stay anchored on the gravity-corrected position.
+    natural_future : Hex
+        Post-gravity, pre-thrust future for this turn.  Initialised to
+        the geometric future; updated after each gravity pass so thrust
+        hints stay anchored on the gravity-corrected position.
     """
 
     def __init__(self, past: Hex, present: Hex, future: Hex,
@@ -38,7 +38,7 @@ class Vessel:
         self.future = future
         self.g_factor = g_factor
         self.thrust_used = 0
-        self.natural_future: Hex | None = None
+        self.natural_future: Hex = future
         self.destroyed: bool = False
 
     # ── movement ────────────────────────────────────────────────────────────

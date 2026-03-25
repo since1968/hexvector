@@ -44,17 +44,9 @@ def _build_scene() -> tuple[Vessel, World]:
     return vessel, world
 
 
-def _natural_future(vessel: Vessel) -> Hex:
-    """Return the post-gravity, pre-thrust future (or geometric extension at start)."""
-    if vessel.natural_future is not None:
-        return vessel.natural_future
-    return extend_vector(vessel.past, vessel.present)
-
-
 def _thrust_hints(vessel: Vessel) -> set[Hex]:
     """Return the ring of hexes reachable by thrust from natural future."""
-    center = _natural_future(vessel)
-    return hexes_within(center, vessel.g_factor) - {center}
+    return hexes_within(vessel.natural_future, vessel.g_factor) - {vessel.natural_future}
 
 
 def _advance(vessel: Vessel, world: World) -> set[Hex]:
@@ -87,8 +79,6 @@ def main() -> None:
     vessel, world = _build_scene()
     renderer = Renderer(screen)
 
-    # Seed natural_future so hints render correctly before the first advance
-    vessel.natural_future = vessel.future
     hints = _thrust_hints(vessel)
     turn = 0
     target_reached = False
@@ -104,7 +94,7 @@ def main() -> None:
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if not frozen:
                     clicked = renderer.hex_at(event.pos)
-                    valid   = hints | {_natural_future(vessel)}
+                    valid   = hints | {vessel.natural_future}
                     if clicked in valid:
                         vessel.future = clicked
 
