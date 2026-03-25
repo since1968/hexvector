@@ -35,7 +35,12 @@ So hex_line(vessel.past, vessel.present) traces the path the ship
 just traveled — which is exactly the old present→future path.
 """
 
-import pytest
+import sys
+import os
+import unittest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 from core.hex_grid import Hex, extend_vector
 from core.vector_movement import Vessel
 from core.world import World
@@ -48,7 +53,7 @@ def _vessel(past: Hex, present: Hex, future: Hex) -> Vessel:
     return Vessel(past, present, future)
 
 
-class TestGravityDisplacement:
+class TestGravityDisplacement(unittest.TestCase):
 
     def test_no_displacement_when_path_clear(self):
         """Path entirely outside the gravity ring — future is unchanged.
@@ -59,8 +64,8 @@ class TestGravityDisplacement:
         world = World(WORLD)
         v = _vessel(Hex(0, 0), Hex(2, 0), Hex(4, 0))
         count = world.apply_gravity(v)
-        assert count == 0
-        assert v.future == Hex(4, 0)
+        self.assertEqual(count, 0)
+        self.assertEqual(v.future, Hex(4, 0))
 
     def test_single_gravity_displacement(self):
         """Path crosses exactly one gravity hex — future displaced once.
@@ -78,8 +83,8 @@ class TestGravityDisplacement:
         world = World(WORLD)
         v = _vessel(Hex(3, 4), Hex(5, 4), Hex(7, 4))
         count = world.apply_gravity(v)
-        assert count == 1
-        assert v.future == Hex(7, 5)
+        self.assertEqual(count, 1)
+        self.assertEqual(v.future, Hex(7, 5))
 
     def test_double_gravity_displacement(self):
         """Path crosses two gravity hexes — future displaced twice (cumulative).
@@ -103,8 +108,8 @@ class TestGravityDisplacement:
         world = World(WORLD)
         v = _vessel(Hex(3, 4), Hex(7, 4), Hex(11, 4))
         count = world.apply_gravity(v)
-        assert count == 2
-        assert v.future == Hex(11, 6)
+        self.assertEqual(count, 2)
+        self.assertEqual(v.future, Hex(11, 6))
 
     def test_takeoff_into_gravity_hex(self):
         """1G launch from world hex: gravity returns future to the gravity hex entered.
@@ -132,11 +137,11 @@ class TestGravityDisplacement:
         """
         world = World(WORLD)
         v = _vessel(Hex(5, 5), Hex(6, 5), extend_vector(Hex(5, 5), Hex(6, 5)))
-        assert v.future == Hex(7, 5)   # confirm extend_vector result
+        self.assertEqual(v.future, Hex(7, 5))   # confirm extend_vector result
         count = world.apply_gravity(v)
-        assert count == 1
-        assert v.future == Hex(6, 5)
-        assert v.future == v.present   # ship is trapped: future == present
+        self.assertEqual(count, 1)
+        self.assertEqual(v.future, Hex(6, 5))
+        self.assertEqual(v.future, v.present)   # ship is trapped: future == present
 
     def test_origin_hex_excluded_from_gravity(self):
         """A gravity hex at the origin (past) must NOT trigger displacement.
@@ -150,5 +155,9 @@ class TestGravityDisplacement:
         world = World(WORLD)
         v = _vessel(Hex(6, 5), Hex(7, 5), Hex(8, 5))
         count = world.apply_gravity(v)
-        assert count == 0
-        assert v.future == Hex(8, 5)
+        self.assertEqual(count, 0)
+        self.assertEqual(v.future, Hex(8, 5))
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

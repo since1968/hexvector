@@ -11,6 +11,7 @@ displacements.
 """
 
 from core.hex_grid import Hex, neighbors, step, hex_line
+from core.vector_movement import Vessel
 
 
 class World:
@@ -31,7 +32,7 @@ class World:
         """Return {hex: toward_world_direction} for the six surrounding hexes."""
         return self._gravity
 
-    def apply_gravity(self, vessel) -> int:
+    def apply_gravity(self, vessel: Vessel) -> int:
         """
         Apply mandatory gravity to vessel after vessel.advance().
 

@@ -44,18 +44,6 @@ COLOUR_WORLD        = (180, 120,  40)
 COLOUR_GRAVITY_FILL = ( 60,  35,  10)
 COLOUR_GRAVITY_RING = (180,  90,  20)
 
-# ── temporary gravity-verification markers ────────────────────────────────────
-# TEMPORARY — remove after gravity fix verification is complete (issue #4).
-_DEBUG_LABELS: dict[Hex, str] = {
-    Hex( 9,  6): "A",
-    Hex(11,  6): "B",
-    Hex(13,  6): "C",
-    Hex(13,  7): "D",
-    Hex(13,  8): "E",
-    Hex(15, 10): "F",
-    Hex(14, 10): "G",
-}
-
 # Vessel colour scheme
 _VESSEL_SCHEME = dict(
     past    = ( 20,  40,  90),
@@ -232,13 +220,6 @@ class Renderer:
                 label = self._font.render(f"{h.col},{h.row}", True, colour)
                 lw, lh = label.get_size()
                 self.screen.blit(label, (int(cx - lw / 2), int(cy - lh / 2)))
-
-            # TEMPORARY — debug markers for gravity verification (issue #4).
-            if self.show_labels and h in _DEBUG_LABELS:
-                cx, cy = hex_to_pixel(h, size, origin)
-                marker = self._font_hud.render(_DEBUG_LABELS[h], True, COLOUR_HUD)
-                mw, mh = marker.get_size()
-                self.screen.blit(marker, (int(cx - mw / 2), int(cy - mh / 2)))
 
         for w in worlds:
             self._draw_world(w, size, origin)
