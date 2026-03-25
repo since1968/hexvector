@@ -16,8 +16,6 @@ _COLS   = 20   # default grid columns
 _ROWS   = 15   # default grid rows
 _MARGIN = 30   # pixel margin around the grid
 
-_ZOOM_MULTIPLIERS = [1.0, 0.5]
-
 
 def _sysfont(size: int, bold: bool = False) -> pygame.font.Font:
     """Return the first available Unicode-capable monospace font."""
@@ -97,7 +95,6 @@ class Renderer:
         self.cols = cols
         self.rows = rows
         self.show_labels: bool = False
-        self.zoom_level: int = 0
 
         # Infinite-scroll camera pan (pixel offset applied to the grid origin)
         self.camera: list[float] = [0.0, 0.0]
@@ -107,9 +104,6 @@ class Renderer:
 
     def toggle_labels(self) -> None:
         self.show_labels = not self.show_labels
-
-    def toggle_zoom(self) -> None:
-        self.zoom_level = 1 - self.zoom_level
 
     # ── camera / pan ──────────────────────────────────────────────────────────
 
@@ -124,7 +118,6 @@ class Renderer:
         """Return (hex_size, origin) for the current window and camera."""
         sw, sh = self.screen.get_size()
         size = _compute_hex_size(sw, sh, self.cols, self.rows, _MARGIN)
-        size *= _ZOOM_MULTIPLIERS[self.zoom_level]
         ox, oy = _compute_origin(sw, sh, size, self.cols, self.rows)
         return size, (ox + self.camera[0], oy + self.camera[1])
 

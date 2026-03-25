@@ -111,8 +111,9 @@ def pixel_to_hex(px: float, py: float, size: float,
     fr = (2 / 3 * py) / size
     fs = -fq - fr
 
-    # Cube round then convert to offset
-    x, y, z = _cube_round(fq, fs, fr)   # note: cube (x,y,z) maps as x=q, z=r
+    # _cube_round expects (x, y, z); in axial notation x=q, y=s, z=r,
+    # so the arguments are (fq, fs, fr) — not (fq, fr, fs).
+    x, y, z = _cube_round(fq, fs, fr)
     return _cube_to_offset(x, y, z)
 
 
