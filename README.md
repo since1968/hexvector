@@ -15,7 +15,7 @@ like it or not. Each turn you may shift that future position by one hex
 using thrust. The planet's gravity will shift it too, whether you ask it
 to or not.
 
-![hexvector demo screenshot](hexvector-demo.png)
+<img src="img/demo.png" alt="hexvector demo" width="600">
 
 ---
 
